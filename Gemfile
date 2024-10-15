@@ -22,6 +22,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 gem "bootsnap", require: false
 
+gem 'sidekiq'
+
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
 end
