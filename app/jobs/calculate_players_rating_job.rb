@@ -3,6 +3,8 @@ class CalculatePlayersRatingJob < ApplicationJob
 
   def perform(statistic_id)
     statistic = Statistic.find(statistic_id)
+
+    statistic.skip_player_rating_callback = true
     match_importance = statistic.match.match_importance
 
     rating = case statistic.role.name
@@ -17,6 +19,7 @@ class CalculatePlayersRatingJob < ApplicationJob
              end
 
     statistic.update(player_rating: rating)
+    statistic.skip_player_rating_callback = false
   end
 
   private

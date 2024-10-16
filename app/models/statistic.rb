@@ -3,7 +3,21 @@ class Statistic < ApplicationRecord
   belongs_to :match
   belongs_to :role
 
-  after_create :calculate_player_rating
+  attr_accessor :skip_player_rating_callback
+  after_save :calculate_player_rating, unless: :skip_player_rating_callback
+
+  def self.top_five_players(team_id, role_id, start_date, end_date)
+    players = Statistic.joins(:player, :match)
+                       .where(players: { team_id: team_id },
+                              role_id: role_id,
+                              matches: { match_date: start_date..end_date })
+                       .select('player_id, SUM(player_rating) AS total_rating')
+                       .group(:player_id)
+                       .order('total_rating DESC')
+                       .limit(5)
+
+    players
+  end
 
   private
 
