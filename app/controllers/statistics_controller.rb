@@ -9,14 +9,16 @@ class StatisticsController < ApplicationController
   end
 
   def top_players(team_id, role_id, start_date, end_date, limit)
-    top_players = Statistic.includes(:player, :match, :role)
+    top_players = Statistic.joins(:player, :match, :role)
                            .where(players: { team_id: team_id })
                            .where(roles: { id: role_id })
                            .where(matches: { match_date: start_date..end_date })
-                           .order(player_rating: :desc)
+                           .group('players.id', 'players.name')
+                           .select('players.id, players.name AS player_name, SUM(statistics.player_rating) AS total_rating')
+                           .order('total_rating DESC')
                            .limit(limit)
 
-    top_players.map { |stat| { player_name: stat.player.name, rating: stat.player_rating } }
+    top_players.map { |stat| { player_name: stat.player_name, rating: stat.total_rating } }
   end
 
   private

@@ -19,7 +19,7 @@ n = 3
   teams << team if team.persisted?
 end
 
-30.times do
+10.times do
   player = Player.create(name: Faker::Sports::Football.player, team: teams.sample)
   players << player if player.persisted?
 end
