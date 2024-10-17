@@ -8,6 +8,18 @@ class StatisticsController < ApplicationController
     end
   end
 
+  def self.top_players(team_id, role_id, start_date, end_date, limit)
+    top_players = Statistic.includes(:player, :match, :role)
+                           .where(players: { team_id: team_id })
+                           .where(roles: { id: role_id })
+                           .where(matches: { match_date: start_date..end_date })
+                           .order(player_rating: :desc)
+                           .limit(limit)
+
+
+    render json: top_players.map { |stat| { player_name: stat.player.name, rating: stat.player_rating } }, status: :ok
+  end
+
   private
 
   def statistic_params
