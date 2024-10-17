@@ -14,12 +14,12 @@ roles = []
 matches = []
 n = 3
 
-3.times do
+10.times do
   team = Team.create(name: Faker::Sports::Football.team)
   teams << team if team.persisted?
 end
 
-10.times do
+50.times do
   player = Player.create(name: Faker::Sports::Football.player, team: teams.sample)
   players << player if player.persisted?
 end
@@ -29,7 +29,7 @@ end
   roles << role if role.persisted?
 end
 
-60.times do
+1000.times do
   match = Match.create(match_date: Faker::Date.between(from: '2024-01-01', to: '2025-01-01'),
   match_importance: rand(0.1..1.0).round(1))
   matches << match if match.persisted?
@@ -49,5 +49,4 @@ matches.each do |match|
                    match: match,
                    role: roles.sample
   )
-  sleep(0.6)
 end
