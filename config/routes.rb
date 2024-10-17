@@ -10,5 +10,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :statistics, only: [:create]
+  resources :statistics do
+    collection do
+      get 'top_players'
+    end
+  end
 end

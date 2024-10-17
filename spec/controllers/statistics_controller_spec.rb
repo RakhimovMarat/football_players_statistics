@@ -20,4 +20,21 @@ RSpec.describe StatisticsController, type: :controller do
       end
     end
   end
+
+  describe 'fetch top players' do
+    let!(:team) { create(:team) }
+    let!(:role) { create(:role, name: "forward") }
+    let!(:player1) { create(:player, team: team) }
+    let!(:player2) { create(:player, team: team) }
+    let!(:player3) { create(:player, team: team) }
+    let!(:match1) { create(:match, match_date: Date.today) }
+    let!(:match2) { create(:match, match_date: Date.today) }
+
+    before do
+      create(:statistic, player: player1, match: match1, role: role, player_rating: 8.5)
+      create(:statistic, player: player2, match: match1, role: role, player_rating: 9.0)
+      create(:statistic, player: player3, match: match2, role: role, player_rating: 7.0)
+    end
+
+  end
 end
