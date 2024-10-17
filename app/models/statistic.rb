@@ -13,10 +13,10 @@ class Statistic < ApplicationRecord
                               matches: { match_date: start_date..end_date })
                        .select('player_id, SUM(player_rating) AS total_rating')
                        .group(:player_id)
-                       .order('total_rating DESC')
+                       .order('SUM(player_rating) DESC')
                        .limit(5)
 
-    players
+    players.map { |statistic| statistic.attributes.slice('player_id', 'total_rating') }
   end
 
   private
