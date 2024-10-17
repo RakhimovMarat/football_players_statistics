@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_15_164250) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_17_085752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_15_164250) do
     t.float "player_rating"
     t.integer "yellow_cards"
     t.index ["match_id"], name: "index_statistics_on_match_id"
+    t.index ["player_id", "match_id", "role_id"], name: "index_statistics_on_player_id_and_match_id_and_role_id"
     t.index ["player_id"], name: "index_statistics_on_player_id"
     t.index ["role_id"], name: "index_statistics_on_role_id"
   end
